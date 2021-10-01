@@ -5,8 +5,8 @@ Why? I want to see what they do and maybe I'll learn something. As you can see, 
 This small script will help you find some users who use a specific language
 
 ## Screen shot
-This is screenshot when search for language: "C++", demo first 10 users.<br>
-    <img src="screen-shot1.png" alt=""> <img src="screen-shot2.png" alt=""><br>
+This is screenshot when search for language: "Go"<br>
+<img src="screenshot1.png" alt=""><br><img src="screenshot2.png" alt=""><br>
 ## Usage
 Just clone the code then run
 ```js
