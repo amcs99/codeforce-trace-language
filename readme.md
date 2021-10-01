@@ -10,6 +10,7 @@ This is screenshot when search for language: "C++", demo first 10 users.<br>
 ## Usage
 Just clone the code then run
 ```js
+npm install
 node index.js
 ```
 The result will be saved at './list_user.txt'
