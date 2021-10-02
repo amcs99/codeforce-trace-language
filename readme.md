@@ -14,11 +14,18 @@ npm install
 node index.js
 ```
 The result will be saved at './list_user.txt'
+
+## How it works?
+Firstly, the script will get list of users in each page from 1 -> 60 (can config by yourself).
+For each user, the script will call codeforces's API to get 500 submissons (can config) and check if exists at least 3 (can config) ACCEPTED submission with 'Go' (can config).
+If it has, the script will consider the user use 'Go' and append the result to './list_user.txt'.
+
 ## Arguments
-- <b>NUMBER_OF_PAGE</b> : the number of page that we search on, each page(e.g. https://codeforces.com/ratings/page/1) will contain 200 users sorted by rating decrease. E.g. page 1 contain LGM and IGM, if we need find from tourist to someone that have rating ~1k6 we need page about 60 
-- <b>LANGUAGE</b>: The language you need to find
+- <b>LANGUAGE</b>: The language you need to find.
+- <b>NUMBER_OF_PAGE</b> : the number of page that we search on, each page(e.g. https://codeforces.com/ratings/page/1) will contain 200 users sorted by rating decrease. E.g. page 1 contain LGM and IGM, if we need find from tourist to someone that have rating ~1k6 we need page about 60.
 - <b>NUMBER_OF_SUBMISSION</b>: The submissions to check of an user to determine whether he ussually use the language you want to find. Default is 500.
+- <b>NUMBER_TO_CONSIDER_USED</b>: The number of accepted submission that we consider user is use that language.
 
 ## Note
-This script work quite slow, each user will need about 2-3s to check
+This script work quite slow, each user will need about 2-3s to check.
 You can speed it up by limit the list it find(E.g. Search in specific counntry...)

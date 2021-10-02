@@ -9,18 +9,23 @@ const fs = require('fs');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
+// language to find
+const LANGUAGE = "Go";
+
 // each page contain 200 user in rating list
 // we need provide number of page that match our purpose
 // e.g page 1 contain LGM and IGM, if we need trace to
 // someone that have rating ~1k6 we need page about 60
 const NUMBER_OF_PAGE = 60;
 
-// language to find
-const LANGUAGE = "Go";
-
 // number of submissions to check, default is 500
 // you can change as you want
 const NUMBER_OF_SUBMISSION = 500;
+
+// number ofsubmissions with language to consider he
+// is use the language we are finding
+const NUMBER_TO_CONSIDER_USED = 3;
+
 
 const sleep = (time) => {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -29,6 +34,8 @@ const sleep = (time) => {
 const doJobInpage = (async (page) => {
   try {
     const response = await axios.get('https://codeforces.com/ratings/page/' + page);
+    // e.g. search by country
+    // const response = await axios.get('https://codeforces.com/ratings/country/China/page/' + page); 
     const dom = new JSDOM(response.data);
 
     let table;
@@ -80,14 +87,22 @@ const doJobInpage = (async (page) => {
         continue;
       }
       const lstSubmissions = responseApiCodeforces.data.result;
+      let numberOfUse = 0;
       let contestId = 0;
       let submissionId = 0;
       for (let j = 0; j < lstSubmissions.length; ++j) {
-        if (lstSubmissions[j].programmingLanguage && lstSubmissions[j].programmingLanguage.indexOf(LANGUAGE) > -1) {
-          usedLanguageWeNeed = true;
-          contestId = lstSubmissions[j].contestId;
-          submissionId = lstSubmissions[j].id;
-          break;
+        if (lstSubmissions[j].programmingLanguage
+          && lstSubmissions[j].programmingLanguage.indexOf(LANGUAGE) > -1
+          && lstSubmissions[j].verdict == "OK") {
+          ++numberOfUse;
+          if (numberOfUse == 1) {
+            contestId = lstSubmissions[j].contestId;
+            submissionId = lstSubmissions[j].id;
+          }
+          if (numberOfUse >= NUMBER_TO_CONSIDER_USED) {
+            usedLanguageWeNeed = true;
+            break;
+          }
         }
       }
       if (usedLanguageWeNeed) {
